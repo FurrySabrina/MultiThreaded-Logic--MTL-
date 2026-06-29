@@ -1,6 +1,13 @@
 {
    "allow_add_mods" : true,
    "custom_icons" : false,
+   "dependencies" : [
+      {
+         "fileId" : 2865678708,
+         "localId" : "e18c61d3-befb-44e5-bbae-d57bfec0f7f5",
+         "name" : "Super SunShakes™ Fly Mod"
+      }
+   ],
    "description" : "This mod doesn't have a description",
    "localId" : "d24e29cf-9126-4c8c-86b3-92b3144da381",
    "name" : "MultiThreaded Logic (MTL)",

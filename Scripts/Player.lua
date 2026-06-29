@@ -1,9 +1,16 @@
-Player = class( nil )
+Player = class(nil)
 
-function Player.server_onCreate( self )
-	print("Player.server_onCreate")
-    print(self)
-end
+-- server
 
-function Player:server_onFixedUpdate()
+-- client
+
+function Player:client_onCreate()
+    print("Player:client_onCreate")
+    self.cl = {
+        guiInterfaces = {
+            stats = sm.gui.createGuiFromLayout("$CONTENT_DATA/Gui/Layouts/Stats.layout", false, {
+                isHud = true
+            })
+        }
+    }
 end

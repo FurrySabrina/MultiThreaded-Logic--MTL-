@@ -7,15 +7,20 @@ markmap:
     spacingVertical: 15
 ---
 
+#FF5555 FPS#ffffff 20 /\50 \/5
+
+# Completed
+
+- [x] Made a procedurally generated terrain im happy with.
+
 # Plans
 
 - [ ] Make a hud gui that shows performance stats.
     - [ ] FPS info
         - [ ] Current FPS
-        - [ ] Average FPS
         - [ ] Max FPS
         - [ ] Min FPS
-    - [ ] LPS (logic cacluation per second.)
+    - [ ] LCPS (logic calcuations per second.)
     - [ ] Hz (how fast (in hz) the logic gates are being calculated.)
         - this is good for dynamic logic gate speeds. otherwise, it wont really be useful.
     - [ ] Time (just how long the world has been running for.)
