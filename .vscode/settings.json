@@ -1,0 +1,10 @@
+{
+    "Lua.diagnostics.globals": [
+        "InsideCellBounds",
+        "CELL_SIZE",
+        "GetCell",
+        "RotateLocal",
+        "GetRotationQuat",
+        "InverseRotateLocal"
+    ]
+}
