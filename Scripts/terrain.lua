@@ -5,8 +5,6 @@ function Init()
 end
 
 function Create( xMin, xMax, yMin, yMax, seed, data )
-    print( "Create terrain", xMin, xMax, yMin, yMax, seed, data )
-
 	g_uuidToPath = {}
 	g_cellData = {
 		bounds = { xMin = xMin, xMax = xMax, yMin = yMin, yMax = yMax },
