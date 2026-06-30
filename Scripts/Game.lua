@@ -1,6 +1,7 @@
 dofile("Modules/Config.lua")
 dofile("Modules/Utils.lua")
-dofile("Modules/TimeScaleManager.lua")
+dofile("Managers/TimeScaleManager.lua")
+dofile("Managers/CommandManager.lua")
 --- @class GameClass
 Game = class(nil)
 
@@ -9,13 +10,6 @@ Game = class(nil)
 function Game:server_onCreate()
     if self.data and self.data.dev then
         CONFIG.isDebug = true
-        print(sm.debugDraw.enabled)
-        if sm.debugDraw.enabled == nil then
-            fWarn("debugDraw DLL not found. Debug draw will not work.")
-        elseif sm.debugDraw.enabled == false then
-            fWarn("debugDraw DLL is disabled. (-debugDraw flag not set.)")
-        end
-        CONFIG.canDebugDraw = sm.debugDraw.enabled==true
     end
     fPrint("Game.server_onCreate")
     self.sv = {
@@ -27,14 +21,11 @@ function Game:server_onCreate()
         self.sv.saved = {}
         self.sv.saved.world_index = 1
         self.sv.saved.worlds = {
-            [1] = sm.world.createWorld("$CONTENT_DATA/Scripts/World.lua", "World")
+            [1] = sm.world.createWorld("$CONTENT_DATA/Scripts/Worlds/Warehouse.lua", "WarehouseWorld")
         }
         self.storage:save(self.sv.saved)
     end
-    -- commands
-    for command, data in pairs(CONFIG.commands) do
-        sm.game.bindChatCommand("/" .. command, data.params, "cl_onChatCommand", data.help)
-    end
+    COMMAND_MANAGER.sv_onCreate(self)
 end
 
 function Game:server_onPlayerJoined(player, isNewPlayer)
@@ -60,25 +51,21 @@ function Game:server_onFixedUpdate()
     TIME_SCALE_MANAGER.sv_onFixedUpdate(self)
 end
 
+function Game:sv_onChatCommand(commandData, player)
+    COMMAND_MANAGER.sv_onChatCommand(self, commandData)
+end
+
 -- client
 
 function Game:client_onTimeScale(timeScale)
     TIME_SCALE_MANAGER.cl_onTimeScale(self, timeScale)
 end
 
--- function for redirecting mod hooks to the actual command function.
-function Game:cl_onChatCommand(commandData)
-    self:client_onChatCommand(commandData)
+function Game:client_onFixedUpdate()
+    TIME_SCALE_MANAGER.cl_onFixedUpdate(self)
 end
 
-function Game:client_onChatCommand(commandData)
-    local command = commandData[1]:sub(2) -- removes the / from the command.
-    local params = { n = #commandData-1 }
-    for i = 2, #commandData do
-        params[i - 1] = commandData[i]
-    end
-    fPrint("Game:cl_onChatCommand", "/" .. command, params)
-    if command == "stats" then
-        fPrint("balls")
-    end
+-- function for redirecting mod hooks to the actual command function.
+function Game:cl_onChatCommand(commandData)
+    COMMAND_MANAGER.cl_onChatCommand(self, commandData)
 end

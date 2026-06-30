@@ -42,7 +42,9 @@ markmap:
     - [ ] Could have a thing in the wall that allows logic gates to be connected to mutiple worlds, to save on performance?
         - or instead just have a placeable gate that can be connected to multiple worlds.
 
-# Thoughts
+# Validation
+
+- [ ] Check for client/server issues.
 
 # Links
 

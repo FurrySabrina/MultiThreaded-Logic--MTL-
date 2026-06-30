@@ -31,11 +31,28 @@ end
 
 -- client
 
+function TIME_SCALE_MANAGER.cl_onCreate(self)
+    self.cl.timeScale = {
+        enabled = sm.timeScale ~= nil,
+        current = 1
+    }
+end
+
+function TIME_SCALE_MANAGER.cl_onFixedUpdate(self)
+    if sm.isHost then return end
+    if not self.cl.timeScale.enabled then return end
+    if self.cl.timeScale.current ~= sm.timeScale.get() then
+        fError("TimeScale can not be changed by the client.")
+        sm.timeScale.set(self.cl.timeScale.current)
+    end
+end
+
 function TIME_SCALE_MANAGER.cl_onTimeScale(self, timeScale)
     if sm.isHost then return end
     if not self.cl.timeScale.enabled then
         fWarn("TimeScale was set by the server, but the client does not have the timeScale DLL.")
         return
     end
+    self.cl.timeScale.current = timeScale
     sm.timeScale.set(timeScale)
 end
