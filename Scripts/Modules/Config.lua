@@ -1,6 +1,7 @@
 CONFIG = {}
 
 CONFIG.isDebug = false
+CONFIG.canDebugDraw = false
 
 -- all the commands that are available to the player.
 CONFIG.commands = {
@@ -23,9 +24,9 @@ CONFIG.commands = {
 
 CONFIG.commandFunctions = {
     time = function(timeString)
-        print("time", timeString)
+        fPrint("time", timeString)
     end,
     stats = function(isOpen)
-        print("stats", isOpen)
+        fPrint("stats", isOpen)
     end
 }

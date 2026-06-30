@@ -1,4 +1,7 @@
-dofile("Config.lua")
+dofile("Modules/Config.lua")
+dofile("Modules/Utils.lua")
+dofile("Modules/TimeScaleManager.lua")
+--- @class GameClass
 Game = class(nil)
 
 -- server
@@ -6,9 +9,19 @@ Game = class(nil)
 function Game:server_onCreate()
     if self.data and self.data.dev then
         CONFIG.isDebug = true
+        print(sm.debugDraw.enabled)
+        if sm.debugDraw.enabled == nil then
+            fWarn("debugDraw DLL not found. Debug draw will not work.")
+        elseif sm.debugDraw.enabled == false then
+            fWarn("debugDraw DLL is disabled. (-debugDraw flag not set.)")
+        end
+        CONFIG.canDebugDraw = sm.debugDraw.enabled==true
     end
-    print("Game.server_onCreate")
-    self.sv = {}
+    fPrint("Game.server_onCreate")
+    self.sv = {
+        hostPlayer = nil
+    }
+    TIME_SCALE_MANAGER.sv_onCreate(self)
     self.sv.saved = self.storage:load()
     if self.sv.saved == nil then
         self.sv.saved = {}
@@ -25,13 +38,17 @@ function Game:server_onCreate()
 end
 
 function Game:server_onPlayerJoined(player, isNewPlayer)
-    print("Game.server_onPlayerJoined")
+    fPrint("Game.server_onPlayerJoined")
     if isNewPlayer then
         if not sm.exists(self.sv.saved.worlds[1]) then
             sm.world.loadWorld(self.sv.saved.worlds[1])
         end
         self.sv.saved.worlds[1]:loadCell(0, 0, player, "sv_createPlayerCharacter")
     end
+    if self.sv.hostPlayer == nil then
+        self.sv.hostPlayer = player -- set the host player.
+    end
+    TIME_SCALE_MANAGER.sv_onPlayerJoined(self, player)
 end
 
 function Game:sv_createPlayerCharacter(world, x, y, player, params)
@@ -39,7 +56,15 @@ function Game:sv_createPlayerCharacter(world, x, y, player, params)
     player:setCharacter(character)
 end
 
+function Game:server_onFixedUpdate()
+    TIME_SCALE_MANAGER.sv_onFixedUpdate(self)
+end
+
 -- client
+
+function Game:client_onTimeScale(timeScale)
+    TIME_SCALE_MANAGER.cl_onTimeScale(self, timeScale)
+end
 
 -- function for redirecting mod hooks to the actual command function.
 function Game:cl_onChatCommand(commandData)
@@ -52,8 +77,8 @@ function Game:client_onChatCommand(commandData)
     for i = 2, #commandData do
         params[i - 1] = commandData[i]
     end
-    print("Game:cl_onChatCommand", "/" .. command, params)
+    fPrint("Game:cl_onChatCommand", "/" .. command, params)
     if command == "stats" then
-        print("balls")
+        fPrint("balls")
     end
 end

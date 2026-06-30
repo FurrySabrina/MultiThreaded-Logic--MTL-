@@ -1,5 +1,5 @@
 <MyGUI type="Layout" version="3.2.0">
-	<Widget type="EditBox" skin="EditBoxEmpty" name="FPS" position_real="0.75 0 0.25 0.027777777777777776">
+	<Widget type="EditBox" skin="EditBoxEmpty" name="FPS" position_real="0.7473958333333334 0 0.25 0.027777777777777776">
 		<Property key="Caption" value="FPS" />
 		<Property key="FontName" value="X_Hud_Alert" />
 		<Property key="TextAlign" value="Right VCenter" />
@@ -7,16 +7,16 @@
 		<Property key="MultiLine" value="true" />
 		<Property key="Static" value="true" />
 	</Widget>
-	<Widget type="EditBox" skin="EditBoxEmpty" name="LPS" position_real="0.75 0.027777777777777776 0.25 0.027777777777777776">
-		<Property key="Caption" value="LPS" />
+	<Widget type="EditBox" skin="EditBoxEmpty" name="TIME" position_real="0.7473958333333334 0.08333333333333333 0.25 0.027777777777777776">
+		<Property key="Caption" value="TIME" />
 		<Property key="FontName" value="X_Hud_Alert" />
 		<Property key="TextAlign" value="Right VCenter" />
 		<Property key="ReadOnly" value="true" />
 		<Property key="MultiLine" value="true" />
 		<Property key="Static" value="true" />
 	</Widget>
-	<Widget type="EditBox" skin="EditBoxEmpty" name="TIME" position_real="0.75 0.05555555555555555 0.25 0.027777777777777776">
-		<Property key="Caption" value="TIME" />
+	<Widget type="EditBox" skin="EditBoxEmpty" name="LPS" position_real="0.7473958333333334 0.027777777777777776 0.25 0.027777777777777776">
+		<Property key="Caption" value="LPS" />
 		<Property key="FontName" value="X_Hud_Alert" />
 		<Property key="TextAlign" value="Right VCenter" />
 		<Property key="ReadOnly" value="true" />

@@ -1,3 +1,5 @@
+dofile("Modules/Config.lua")
+dofile("Modules/Utils.lua")
 Player = class(nil)
 
 -- server
@@ -5,7 +7,7 @@ Player = class(nil)
 -- client
 
 function Player:client_onCreate()
-    print("Player:client_onCreate")
+    fPrint("Player:client_onCreate")
     self.cl = {
         guiInterfaces = {
             stats = sm.gui.createGuiFromLayout("$CONTENT_DATA/Gui/Layouts/Stats.layout", false, {
